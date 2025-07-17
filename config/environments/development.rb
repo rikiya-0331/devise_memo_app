@@ -42,6 +42,9 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Devise configuration for development
+
+  # Deviseのメール（確認メール・パスワード再発行メール）内で
+  # URLヘルパー（*_url）が正しく「localhost:3000」を使うように設定
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   # Print deprecation notices to the Rails logger.
