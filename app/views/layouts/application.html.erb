@@ -11,6 +11,59 @@
   </head>
 
   <body>
-    <%= yield %>
-  </body>
-</html>
+    <!-- ヘッダーナビゲーション -->
+    <header class="bg-blue-600 text-white p-4">
+      <nav class="container mx-auto flex justify-between items-center">
+        <div>
+          <%= link_to "メモアプリ", root_path, class: "text-xl font-bold hover:text-blue-200" %>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <% if user_signed_in? %>
+            <!-- ログイン済みユーザー向けメニュー -->
+            <span class="text-blue-200">
+              <%= current_user.email %> さん
+            </span>
+            <%= link_to "ログアウト", destroy_user_session_path, 
+                        data: { "turbo-method": :delete },
+                        class: "bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white text-sm" %>
+          <% else %>
+            <!-- 未ログインユーザー向けメニュー -->
+            <%= link_to "ログイン", new_user_session_path, 
+                        class: "bg-green-500 hover:bg-green-600 px-3 py-1 rounded text-white text-sm" %>
+            <%= link_to "新規登録", new_user_registration_path, 
+                        class: "bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded text-white text-sm" %>
+          <% end %>
+        </div>
+      </nav>
+    </header>
+
+    <!-- フラッシュメッセージ表示 -->
+    <% if notice %>
+      <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 mb-4 rounded">
+        <div class="container mx-auto">
+          <%= notice %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if alert %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mb-4 rounded">
+        <div class="container mx-auto">
+          <%= alert %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- メインコンテンツ -->
+    <main class="container mx-auto px-4 py-6">
+      <%= yield %>
+    </main>
+
+    <!-- フッター -->
+    <footer class="bg-gray-800 text-white p-4 mt-8">
+      <div class="container mx-auto text-center">
+      <!-- 年を固定値で記述せず動的に取得 -->
+        <p>&copy; <%= Date.current.year %> メモアプリ. All rights reserved.</p>
+      </div>
+    </footer>
